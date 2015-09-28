@@ -1,0 +1,23 @@
+[package]
+name = "bladerf-bindings"
+version = "0.0.2"
+repository = "https://github.com/unimonkiez/rust-bladerf-bindings"
+authors = ["Yuval Saraf <unimonkiez@gmail.com>"]
+description = "Rust bindings for bladeRF"
+readme = "README.md"
+license = "MIT"
+default-run = "bladerf"
+
+[lib]
+name = "bladerf"
+path = "src/lib.rs"
+
+[[bin]]
+name = "bladerf"
+path = "src/main.rs"
+
+[build-dependencies]
+bindgen = "0.65.1"
+
+[dependencies]
+libc = "0.2.149"
