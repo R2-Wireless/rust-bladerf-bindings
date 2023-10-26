@@ -1,4 +1,4 @@
-# [rust-bladerf-bindings]
+# rust-bladerf-bindings
 
 [![Crates.io][crates-badge]][crates-url]
 
