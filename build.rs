@@ -48,7 +48,6 @@ fn main() {
         .current_dir(out_dir.join("bladeRF").join("host").join("build"))
         .args([
             "-DCMAKE_BUILD_TYPE=Release",
-            "-DINSTALL_UDEV_RULES=ON",
             "-DENABLE_BACKEND_LIBUSB=TRUE",
             "../",
         ])
@@ -68,8 +67,7 @@ fn main() {
         Some(x) => x,
         _ => panic!("Should exist"),
     };
-    println!("cargo:rustc-env=DYLD_LIBRARY_PATH={}", &lib_output);
-    println!("cargo:rustc-env=LD_LIBRARY_PATH={}", &lib_output);
     println!("cargo:rustc-link-search={}", &lib_output);
     println!("cargo:rustc-link-lib=bladeRF");
+    println!("cargo:rustc-link-arg=-Wl,-rpath,{}", &lib_output);
 }

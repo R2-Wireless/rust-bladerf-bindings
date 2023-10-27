@@ -6,14 +6,14 @@ authors = ["Yuval Saraf <unimonkiez@gmail.com>"]
 description = "Rust bindings for bladeRF"
 readme = "README.md"
 license = "MIT"
-default-run = "bladerf"
+default-run = "main"
 
 [lib]
 name = "bladerf"
 path = "src/lib.rs"
 
 [[bin]]
-name = "bladerf"
+name = "main"
 path = "src/main.rs"
 
 [[example]]
