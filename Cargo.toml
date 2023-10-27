@@ -22,3 +22,4 @@ path = "codegen.rs"
 
 [dev-dependencies]
 bindgen = "0.65.1"
+cargo_metadata = "0.12.3"
