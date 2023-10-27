@@ -46,7 +46,12 @@ fn main() {
         .expect("Wasn't able to build bladeRF");
     let _ = Command::new("cmake")
         .current_dir(out_dir.join("bladeRF").join("host").join("build"))
-        .args(["../"])
+        .args([
+            "-DCMAKE_BUILD_TYPE=Release",
+            "-DINSTALL_UDEV_RULES=ON",
+            "-DENABLE_BACKEND_LIBUSB=TRUE",
+            "../",
+        ])
         .output()
         .expect("Wasn't able to build bladeRF");
     let _ = Command::new("make")
