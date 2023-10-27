@@ -1,35 +1,58 @@
-use std::env;
-use std::path::PathBuf;
+use std::process::Command;
 
 fn main() {
-    // Tell cargo to look for shared libraries in the specified directory
-    println!("cargo:rustc-link-search=./bladeRF/build/host/output");
+    println!("cargo:rerun-if-changed=lib-tag");
+    let lib_tag =
+        std::fs::read_to_string("lib-tag").expect("Should have been able to read the file");
+    let lib_tag = lib_tag.trim();
+    let _ = Command::new("rm").args(["-rf", "bladeRF"]).output();
+    let _ = Command::new("mkdir")
+        .args(["bladeRF"])
+        .output()
+        .expect("Wasn't able to build bladeRF");
+    let _ = Command::new("git")
+        .current_dir("bladeRF")
+        .args(["init"])
+        .output()
+        .expect("Wasn't able to build bladeRF");
+    let _ = Command::new("git")
+        .current_dir("bladeRF")
+        .args([
+            "remote",
+            "add",
+            "origin",
+            "https://github.com/Nuand/bladeRF.git",
+        ])
+        .output()
+        .expect("Wasn't able to build bladeRF");
+    let _ = Command::new("git")
+        .current_dir("bladeRF")
+        .args(["fetch", "--depth", "1", "origin", lib_tag])
+        .output()
+        .expect("Wasn't able to build bladeRF");
+    let _ = Command::new("git")
+        .current_dir("bladeRF")
+        .args(["checkout", "FETCH_HEAD"])
+        .output()
+        .expect("Wasn't able to build bladeRF");
 
-    // Tell cargo to tell rustc to link the system bzip2
-    // shared library.
+    let _ = Command::new("mkdir")
+        .current_dir("bladeRF/host")
+        .args(["-p", "build"])
+        .output()
+        .expect("Wasn't able to build bladeRF");
+    let _ = Command::new("cmake")
+        .current_dir("bladeRF/host/build")
+        .args(["../"])
+        .output()
+        .expect("Wasn't able to build bladeRF");
+    let _ = Command::new("make")
+        .current_dir("bladeRF/host/build")
+        .output()
+        .expect("Wasn't able to build bladeRF");
+
+    println!("cargo:rustc-env=DYLD_LIBRARY_PATH=./bladeRF/host/build/output");
+    println!("cargo:rustc-env=LD_LIBRARY_PATH=./bladeRF/host/build/output");
+    println!("cargo:rustc-link-search=./bladeRF/host/build/output");
     println!("cargo:rustc-link-lib=bladeRF");
-
-    // Tell cargo to invalidate the built crate whenever the wrapper changes
-    println!("cargo:rerun-if-changed=wrapper.h");
-
-    // The bindgen::Builder is the main entry point
-    // to bindgen, and lets you build up options for
-    // the resulting bindings.
-    let bindings = bindgen::Builder::default()
-        // The input header we would like to generate
-        // bindings for.
-        .header("wrapper.h")
-        // Tell cargo to invalidate the built crate whenever any of the
-        // included header files changed.
-        .parse_callbacks(Box::new(bindgen::CargoCallbacks))
-        // Finish the builder and generate the bindings.
-        .generate()
-        // Unwrap the Result and panic on failure.
-        .expect("Unable to generate bindings");
-
-    // Write the bindings to the $OUT_DIR/bindings.rs file.
-    let out_path = PathBuf::from("./src");
-    bindings
-        .write_to_file(out_path.join("bindings.rs"))
-        .expect("Couldn't write bindings!");
 }

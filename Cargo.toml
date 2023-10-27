@@ -16,5 +16,9 @@ path = "src/lib.rs"
 name = "bladerf"
 path = "src/main.rs"
 
-[build-dependencies]
+[[example]]
+name = "codegen"
+path = "codegen.rs"
+
+[dev-dependencies]
 bindgen = "0.65.1"
