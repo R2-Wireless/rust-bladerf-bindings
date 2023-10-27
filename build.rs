@@ -1,11 +1,9 @@
 use std::process::Command;
 
+static LIB_TAG: &str = "9fc57e6c7feabde04feebd62cc5b8bb83223728c";
+
 fn main() {
-    println!("cargo:rerun-if-changed=lib-tag");
     let out_dir = std::path::PathBuf::from(std::env::var("OUT_DIR").unwrap());
-    let lib_tag =
-        std::fs::read_to_string("lib-tag").expect("Should have been able to read the file");
-    let lib_tag = lib_tag.trim();
     let _ = Command::new("rm")
         .current_dir(&out_dir)
         .args(["-rf", "bladeRF"])
@@ -32,7 +30,7 @@ fn main() {
         .expect("Wasn't able to build bladeRF");
     let _ = Command::new("git")
         .current_dir(out_dir.join("bladeRF"))
-        .args(["fetch", "--depth", "1", "origin", lib_tag])
+        .args(["fetch", "--depth", "1", "origin", LIB_TAG])
         .output()
         .expect("Wasn't able to build bladeRF");
     let _ = Command::new("git")
