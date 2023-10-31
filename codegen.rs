@@ -16,6 +16,7 @@ fn main() {
         .join("include");
     let header_dir = header_dir.to_str().unwrap();
     let bindings = bindgen::Builder::default()
+        .ctypes_prefix("::libc")
         // The input header we would like to generate
         // bindings for.
         .header("bindings.h")
