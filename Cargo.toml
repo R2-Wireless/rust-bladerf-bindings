@@ -1,6 +1,6 @@
 [package]
 name = "bladerf-bindings"
-version = "0.0.9"
+version = "0.0.10"
 repository = "https://github.com/unimonkiez/rust-bladerf-bindings"
 authors = ["Yuval Saraf <unimonkiez@gmail.com>"]
 description = "Rust bindings for bladeRF"
