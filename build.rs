@@ -30,7 +30,7 @@ fn main() {
         .expect("Wasn't able to build bladeRF");
     let _ = Command::new("git")
         .current_dir(out_dir.join("bladeRF"))
-        .args(["fetch", "--depth", "1", "origin", LIB_TAG])
+        .args(["fetch", "origin", LIB_TAG])
         .output()
         .expect("Wasn't able to build bladeRF");
     let _ = Command::new("git")
