@@ -1,6 +1,6 @@
 use std::process::Command;
 
-static LIB_TAG: &str = "9fc57e6c7feabde04feebd62cc5b8bb83223728c";
+static LIB_TAG: &str = "624994d65c02ad414a01b29c84154260912f4e4f";
 
 fn main() {
     let out_dir = std::path::PathBuf::from(std::env::var("OUT_DIR").unwrap());
